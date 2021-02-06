@@ -1,5 +1,6 @@
 package project;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 
 public class Board {
@@ -63,9 +64,83 @@ public class Board {
 
 
 
-    public boolean diagonal(int x, int y) {
-        return false;
+    public boolean square(int x, int y) {
+        // Hashmap for O(n) time and space
+        HashMap<Integer, Integer> testMap = new HashMap<>();
+
+        for(int j = start(y); j <= end(y); j++) {
+            for(int i = start(x); i <= end(x); i++) {
+
+                // Ignore zeros
+                if(matrix[j][i] == 0) {
+                    continue;
+                }
+
+                //If it contains an already seen value then stop and return false
+                if(testMap.containsKey(matrix[j][i])) {
+                    return false;
+                } else {
+                    testMap.put(matrix[j][i],1);
+                }
+            }
+        }
+
+        return true;
     }
 
+    // Helper to figure out the start index for checking the square
+    public int start(int i) {
+        int start = 0;
+
+        // 0,1,2 will start at index 0
+        if(i >= 0 && i <= 2) {
+            start = 0;
+        }
+
+        // 3,4,5 will start at index 3
+        if(i >= 3 && i <= 5) {
+            start = 3;
+        }
+
+        // 6,7,8 will start at index 5
+        if(i >= 6 && i <= 8) {
+            start = 6;
+        }
+
+        return start;
+    }
+
+    // Helper to figure out the end index for checking the square
+    public int end(int i) {
+        int end = 0;
+
+        // 0,1,2 will end at index 2
+        if(i >= 0 && i <= 2) {
+            end = 2;
+        }
+
+        // 3,4,5 will end at index 5
+        if(i >= 3 && i <= 5) {
+            end = 5;
+        }
+
+        // 6,7,8 will end at index 8
+        if(i >= 6 && i <= 8) {
+            end = 8;
+        }
+
+        return end;
+    }
+
+    public boolean diagonal(int x, int y) {
+
+        // Diagonals only occur when the x,y coordinate is the same or if their sum is 8. If it's not a diagonal
+        // position, we don't need to evaluate further
+        if(x + y == 8 || x == y) {
+            return true;
+        }
+
+        return false;
+    }
 
 }
