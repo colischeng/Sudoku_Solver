@@ -69,7 +69,7 @@ public class BoardTest {
     @Test
     void squareTest() {
         // Make sure that the board ignores zeros
-        assertTrue(easy.vertical(0));
+        assertTrue(easy.square(0,0));
 
         // Make square with point (3,3) return true
         easy.editBoard(3,3,4);
@@ -119,7 +119,7 @@ public class BoardTest {
         assertEquals(easy.end(6),8);
         assertEquals(easy.end(7),8);
         assertEquals(easy.end(8),8);
-
     }
+
 
 }

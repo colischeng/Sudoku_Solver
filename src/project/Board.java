@@ -13,8 +13,38 @@ public class Board {
 
     }
 
+    public void solve() {
+        recursiveHelper(0,0,1);
+    }
+
+    private void recursiveHelper(int x, int y, int toTry) {
+        if(x == 8 && y == 8 && matrix[y][x] != 0 && horizontal(8) && vertical(8) && !square(8,8)) {
+            return;
+        } else {
+            if(matrix[y][x] != 0) {
+                editBoard(x,y,toTry);
+
+                if(!horizontal(y) || !vertical(x) || !square(x,y)) {
+                    recursiveHelper(x, y, (toTry % 8) + 1);
+                } else {
+                    recursiveHelper((x % 8) + 1, y, 1);
+                    recursiveHelper(x, (y % 8) + 1, 1);
+
+                }
+
+            }
+
+
+        }
+    }
+
+
     public void editBoard(int x, int y, int value) {
         matrix[y][x] = value;
+    }
+
+    public int get(int x,int y) {
+        return matrix[y][x];
     }
 
     // Test row X's satisfies the Sudoku condition
@@ -130,17 +160,6 @@ public class Board {
         }
 
         return end;
-    }
-
-    public boolean diagonal(int x, int y) {
-
-        // Diagonals only occur when the x,y coordinate is the same or if their sum is 8. If it's not a diagonal
-        // position, we don't need to evaluate further
-        if(x + y == 8 || x == y) {
-            return true;
-        }
-
-        return false;
     }
 
 }
