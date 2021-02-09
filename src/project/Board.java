@@ -1,7 +1,9 @@
 package project;
 
-import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 
 public class Board {
     public int[][] matrix;
@@ -13,38 +15,33 @@ public class Board {
 
     }
 
-    public void solve() {
-        recursiveHelper(0,0,1);
+    public Board solve(Board toSolve) {
+        return recursiveHelper(toSolve);
     }
 
-    private void recursiveHelper(int x, int y, int toTry) {
-        if(x == 8 && y == 8 && matrix[y][x] != 0 && horizontal(8) && vertical(8) && !square(8,8)) {
-            return;
+    private Board recursiveHelper(Board toSolve) {
+        if(toSolve.solved()) {
+            return toSolve;
         } else {
-            if(matrix[y][x] != 0) {
-                editBoard(x,y,toTry);
+            int[] firstSquare = toSolve.firstFree(toSolve);
 
-                if(!horizontal(y) || !vertical(x) || !square(x,y)) {
-                    recursiveHelper(x, y, (toTry % 8) + 1);
+            for(int i = 1; i <=9; i++ ) {
+                toSolve.editBoard(firstSquare[0], firstSquare[1], i);
+                if(toSolve.valid(firstSquare[0], firstSquare[1])) {
+                    recursiveHelper(toSolve);
                 } else {
-                    recursiveHelper((x % 8) + 1, y, 1);
-                    recursiveHelper(x, (y % 8) + 1, 1);
-
+                    toSolve.editBoard(firstSquare[0], firstSquare[1], 0);
                 }
-
             }
 
-
+            return toSolve;
         }
+
     }
 
 
     public void editBoard(int x, int y, int value) {
         matrix[y][x] = value;
-    }
-
-    public int get(int x,int y) {
-        return matrix[y][x];
     }
 
     // Test row X's satisfies the Sudoku condition
@@ -117,6 +114,48 @@ public class Board {
 
         return true;
     }
+
+    public boolean solved() {
+        for(int y = 0; y < 9 ;y++) {
+            for(int x = 0; x < 9; x++) {
+                if (matrix[y][x] == 0) {
+                    return false;
+                }
+
+                if(!vertical(x) || !horizontal(y) || !square(x,y)) {
+                    return false;
+                }
+
+            }
+        }
+        return true;
+    }
+
+    // First empty spot in the board
+    public int[] firstFree(Board b) {
+        int[] output = new int[2];
+
+        for(int y = 0; y < 9 ; y++) {
+            for(int x = 0; x < 9 ; x++) {
+                if(b.matrix[y][x] == 0) {
+                    output[0] = x;
+                    output[1] = y;
+                    break;
+                }
+            }
+            if(b.matrix[output[1]][output[0]] == 0) {
+                break;
+            }
+        }
+
+        // TODO : Handle exception of when they're all filled
+        return output;
+    }
+
+    public boolean valid(int x, int y) {
+        return (horizontal(y) && vertical(x) && square(x,y));
+    }
+
 
     // Helper to figure out the start index for checking the square
     public int start(int i) {

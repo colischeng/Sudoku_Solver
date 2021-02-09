@@ -10,6 +10,8 @@ public class BoardTest {
     Board easy;
     Board hard;
 
+    Board solved;
+
     Board unSolvableInitially;
     Board unSolvableAfterSearch;
 
@@ -28,6 +30,20 @@ public class BoardTest {
         int[] easyR9 = new int[] {8,9,0,0,5,6,0,7,3};
 
         easy = new Board(easyR1, easyR2, easyR3, easyR4, easyR5, easyR6, easyR7, easyR8,easyR9);
+
+
+        // Solved board taken from https://www.andrew.cmu.edu/user/kkuan/finalWriteup.html
+        int [] solvedR1 = new int[] {8,2,7,1,5,4,3,9,6};
+        int [] solvedR2 = new int[] {9,6,5,3,2,7,1,4,8};
+        int [] solvedR3 = new int[] {3,4,1,6,8,9,7,5,2};
+        int [] solvedR4 = new int[] {5,9,3,4,6,8,2,7,1};
+        int [] solvedR5 = new int[] {4,7,2,5,1,3,6,8,9};
+        int [] solvedR6 = new int[] {6,1,8,9,7,2,4,3,5};
+        int [] solvedR7 = new int[] {7,8,6,2,3,5,9,1,4};
+        int [] solvedR8 = new int[] {1,5,4,7,9,6,8,2,3};
+        int [] solvedR9 = new int[] {2,3,9,8,4,1,5,6,7};
+
+        solved = new Board(solvedR1, solvedR2, solvedR3, solvedR4, solvedR5, solvedR6, solvedR7, solvedR8, solvedR9);
 
     }
 
@@ -92,6 +108,35 @@ public class BoardTest {
         // Make square at with point (8,6) return false after creating error
         easy.editBoard(6,6,8);
         assertFalse(easy.square(8,6));
+
+    }
+
+    @Test
+    void solvedTest() {
+        // Is the solved board correctly marked as solved
+        assertTrue(solved.solved());
+
+        // Is an incorrectly solved board marked as solved
+        // Change the number in Board[0][0] equal to 6, a number that appears in the same row
+        solved.editBoard(0,0,6);
+        assertFalse(solved.solved());
+
+        // Is the incomplete board correctly marked as unsolved because it has 0s
+        assertFalse(easy.solved());
+
+    }
+
+    @Test
+    void firstFreeTest() {
+        int[] testArray = new int[2];
+        testArray[0] = 0;
+        testArray[1] = 0;
+        assertArrayEquals(easy.firstFree(easy),testArray);
+
+        testArray[0] = 4;
+        testArray[1] = 8;
+        solved.editBoard(4,8,0);
+        assertArrayEquals(solved.firstFree(solved),testArray);
 
     }
 

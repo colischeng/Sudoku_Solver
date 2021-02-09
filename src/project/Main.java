@@ -16,11 +16,11 @@ public class Main {
 
         easy = new Board(easyR1, easyR2, easyR3, easyR4, easyR5, easyR6, easyR7, easyR8,easyR9);
 
-        easy.solve();
+        Board output = easy.solve(easy);
 
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 9; x++) {
-                System.out.println(easy.matrix[y][x]);
+                System.out.println(output.matrix[y][x]);
             }
 
             System.out.println("\n");
