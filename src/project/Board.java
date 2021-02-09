@@ -20,22 +20,32 @@ public class Board {
     }
 
     private Board recursiveHelper(Board toSolve) {
-        if(toSolve.solved()) {
-            return toSolve;
-        } else {
+        if (!toSolve.solved()) {
+            for(int y = 0; y < 9; y++) {
+                for(int x = 0; x < 9; x++) {
+                    System.out.println(toSolve.matrix[y][x]);
+                }
+
+                System.out.println("\n");
+
+            }
+            System.out.println("__________________________");
+
+
+
             int[] firstSquare = toSolve.firstFree(toSolve);
 
-            for(int i = 1; i <=9; i++ ) {
+            for (int i = 1; i <= 9; i++) {
                 toSolve.editBoard(firstSquare[0], firstSquare[1], i);
-                if(toSolve.valid(firstSquare[0], firstSquare[1])) {
+                if (toSolve.valid(firstSquare[0], firstSquare[1])) {
                     recursiveHelper(toSolve);
                 } else {
                     toSolve.editBoard(firstSquare[0], firstSquare[1], 0);
                 }
             }
 
-            return toSolve;
         }
+        return toSolve;
 
     }
 
