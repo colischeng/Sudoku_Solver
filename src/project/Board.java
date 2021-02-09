@@ -30,17 +30,19 @@ public class Board {
                     break;
                 }
 
-                toSolve.editBoard(firstSquare[0], firstSquare[1], i);
-                if (toSolve.valid(firstSquare[0], firstSquare[1])) {
+
+                if (toSolve.validInsert(firstSquare[0], firstSquare[1], i)) {
+                    toSolve.editBoard(firstSquare[0], firstSquare[1], i);
                     recursiveHelper(toSolve);
-                } else {
+                    if(toSolve.solved()) {
+                        break;
+                    }
                     toSolve.editBoard(firstSquare[0], firstSquare[1], 0);
                 }
             }
 
         }
         return toSolve;
-
     }
 
 
@@ -112,6 +114,31 @@ public class Board {
                     return false;
                 } else {
                     testMap.put(matrix[j][i],1);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean validInsert(int x, int y, int value) {
+
+        for(int j = 0; j < 9; j++) {
+            if(matrix[j][x] == value) {
+                return false;
+            }
+        }
+
+        for(int i = 0; i < 9; i++) {
+            if(matrix[y][i] == value) {
+                return false;
+            }
+        }
+
+        for(int j = start(y); j <= end(y); j++) {
+            for(int i = start(x); i <= end(x); i++) {
+                if(matrix[j][i] == value) {
+                    return false;
                 }
             }
         }

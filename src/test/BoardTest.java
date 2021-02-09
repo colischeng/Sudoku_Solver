@@ -127,6 +127,19 @@ public class BoardTest {
     }
 
     @Test
+    void validInsertTest() {
+
+        assertFalse(easy.validInsert(0,0,3));
+
+        assertFalse(easy.validInsert(0,0,5));
+
+        assertFalse(easy.validInsert(0,0,2));
+
+        assertTrue(easy.validInsert(0,0,9));
+
+    }
+
+    @Test
     void firstFreeTest() {
         int[] testArray = new int[2];
         testArray[0] = 0;
