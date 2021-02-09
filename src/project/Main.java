@@ -18,14 +18,14 @@ public class Main {
 
         Board output = easy.solve(easy);
 
-//        for(int y = 0; y < 9; y++) {
-//            for(int x = 0; x < 9; x++) {
-//                System.out.println(output.matrix[y][x]);
-//            }
-//
-//            System.out.println("\n");
-//
-//        }
+        for(int y = 0; y < 9; y++) {
+            for(int x = 0; x < 9; x++) {
+                System.out.println(output.matrix[y][x]);
+            }
+
+            System.out.println("\n");
+
+        }
 
 
     }
